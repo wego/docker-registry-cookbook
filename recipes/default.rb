@@ -119,6 +119,7 @@ application "docker-registry" do
         :storage_path => node['docker-registry']['storage_path'],
         :standalone => node['docker-registry']['standalone'],
 		    :index_endpoint => node['docker-registry']['index_endpoint'],
+        :s3_region => node['docker-registry']['s3_region'],
         :s3_access_key => node['docker-registry']['s3_access_key'],
         :s3_secret_key => s3_secret_key,
         :s3_bucket => node['docker-registry']['s3_bucket'],
@@ -142,7 +143,7 @@ application "docker-registry" do
 
   nginx_load_balancer do
     only_if { node['docker-registry']['load_balancer'] }
-    
+
     application_port node['docker-registry']['internal_port']
     application_server_role node['docker-registry']['application_server_role']
     server_name (node['docker-registry']['server_name'] || node['fqdn'] || node['hostname'])
